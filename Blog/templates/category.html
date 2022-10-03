@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Home {% endblock %}
+{% block style %}
+
+{% endblock %}
+{% block content %}
+		<div id="fh5co-offcanvas">
+		<a href="#" class="fh5co-close-offcanvas js-fh5co-close-offcanvas"><span><i class="icon-cross3"></i> <span>Close</span></span></a>
+		<div class="fh5co-menu">
+			<div class="fh5co-box">
+				<h3 class="heading">Menu</h3>
+				<ul>
+						<li><a href="{% url 'category' %}">Category</a></li>
+					{% if request.user.is_authenticated %}
+						<li><a href="#">Blog</a></li>
+						<li><a href="{% url 'form' %}">Create new post</a></li>
+						<li><a href="{% url 'profile_item' %}">Profile</a></li>
+						<li><a href="{% url 'logout' %}">Log Out</a></li>
+						{% else %}
+							<li><a href="{% url 'login' %}">Log In</a></li>
+							<li><a href="{% url 'register' %}">Registration</a></li>
+					{% endif %}
+
+				</ul>
+			</div>
+			<div class="fh5co-box">
+				<h3 class="heading">Search</h3>
+				<form  method="GET" action="">
+					<div class="form-group">
+						<input type="text" name="search" class="form-control" placeholder="Type a keyword" value="{{request.GET.search}}">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid">
+		<div class="row fh5co-post-entry">
+			{% for obj in all_obj %}
+
+			<article class="col-lg-3 col-md-3 col-sm-3 col-xs-6 col-xxs-12 animate-box">
+				<figure>
+					<a  href="{% url 'single_article' obj.id %}"><img style="height:200px; width:250px;" src="{{obj.image.url}}" alt="Image" class="img-responsive"></a>
+				</figure>
+				<span class="fh5co-meta"><a href="{% url 'topic' obj.category.name %}">{{obj.category.name}}</a></span>
+				<h2 class="fh5co-article-title"><a href="{% url 'single_article' obj.id %}">{{obj.title}}</a></h2>
+				<span class="fh5co-meta fh5co-date">{{obj.posted_on}}</span>
+			</article>
+
+			{% endfor %}
+			<div class="clearfix visible-xs-block"></div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block script%}
+
+{% endblock %}
+

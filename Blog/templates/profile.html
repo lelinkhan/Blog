@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Profile {% endblock %}
+{% block style %}
+	<style type="text/css">
+		#fh5co-offcanvas {
+			width: auto;
+		}
+		#fh5co-offcanvas .fh5co-menu, #fh5co-offcanvas .fh5co-bio {
+			width: 350px;
+			padding: 50px;
+		}
+	</style>
+{% endblock %}
+{% block content %}
+	<div class="container-fluid">
+		<div class="col fh5co-post-entry">
+			{% for p in post %}
+			<article class="col-md-4 animate-box">
+				<figure>
+					<a href="{% url 'single_article' p.id %}"><img src="{{p.image.url}}" alt="Image" class="img-responsive"></a>
+				</figure>
+				<span class="fh5co-meta"><a href="single.html">{{p.title}}</a></span>
+				<span class="fh5co-meta fh5co-date">{{p.posted_on}}</span>
+			</article>
+			{% endfor %}
+		</div>
+	</div>
+{% endblock %}

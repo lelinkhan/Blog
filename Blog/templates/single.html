@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} {% endblock %}
+{% block style %}
+		<style type="text/css">
+		#fh5co-offcanvas {
+			width: auto;
+		}
+		#fh5co-offcanvas .fh5co-menu, #fh5co-offcanvas .fh5co-bio {
+			width: 350px;
+			padding: 50px;
+		}
+	</style>
+{% endblock %}
+{% block content %}
+{% load crispy_forms_tags %}
+	<div id="fh5co-offcanvas">
+		<a href="#" class="fh5co-close-offcanvas js-fh5co-close-offcanvas"><span><i class="icon-cross3"></i> <span>Close</span></span></a>
+		<div class="fh5co-bio">
+			<figure>
+				<img src="{{obj.article_author.profile_pic.url}}" alt="Free HTML5 Bootstrap Template" class="img-responsive">
+			</figure>
+			<h3 class="heading">About Me</h3>
+			<h2>{{obj.article_author.name}}</h2>
+			<p>{{obj.article_author.about}}</p>
+			<ul class="fh5co-social">
+				<li><a href="#"><i class="icon-linkedin"></i></a></li>
+				<li><a href="#"><i class="icon-facebook"></i></a></li>
+				<li><a href="#"><i class="icon-instagram"></i></a></li>
+			</ul>
+		</div>
+	</div>
+
+
+
+	<div class="container-fluid">
+		<div class="row fh5co-post-entry single-entry">
+			<article class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-12 col-xs-offset-0">
+				<figure class="animate-box">
+					<img src="{{obj.image.url}}" alt="Image" class="img-responsive">
+				</figure>
+				<span class="fh5co-meta animate-box"><a href="{% url 'topic' obj.category.name  %}">{{obj.category.name}}</a></span>
+				<h2 class="fh5co-article-title animate-box"><a href="single.html">{{obj.title}}</a></h2>
+				<span class="fh5co-meta fh5co-date animate-box">{{obj.posted_on}}</span>
+				
+				<div class="col-lg-12 col-lg-offset-0 col-md-12 col-md-offset-0 col-sm-12 col-sm-offset-0 col-xs-12 col-xs-offset-0 text-left content-article">
+					<div class="row">
+						<div class="col-lg-12 cp-r animate-box">
+							<p>{{obj.description}}</p>
+						</div>
+					</div>
+				</div>
+			</article>
+			</div>
+				<h2 class="text-center pb-5px well">Related Post</h2>
+
+				<div class="col fh5co-post-entry">
+
+				{% for obj in related_post %}
+
+				<article class="col-md-4 animate-box">
+					<figure>
+						<a  href="{% url 'single_article' obj.id %}"><img style="height:200px; width:250px;" src="{{obj.image.url}}" alt="Image" class="img-responsive"></a>
+					</figure>
+					<span class="fh5co-meta"><a href="{% url 'topic' obj.category.name %}">{{obj.category.name}}</a></span>
+					<h2 class="fh5co-article-title"><a href="{% url 'single_article' obj.id %}">{{obj.title}}</a></h2>
+					<span class="fh5co-meta fh5co-date">{{obj.posted_on}}</span>
+				</article>
+
+				{% endfor %}
+			</div>
+		   </div>
+
+			<h3 class="well">Comments</h3>
+			<div>
+				{% for c in getComment %}
+				<div>
+					<h4>{{c.name}}</h4>
+					<h5>{{c.email}}</h5>
+					<p>{{c.post_comment}}</p>
+				</div>
+				{% empty %}
+				<h3>Sorry!No comment found</h3>
+				{% endfor %}
+			</div>
+			<div class="panel panel-default">
+			  <div class="panel-heading">
+				  <h3>Comment</h3>
+			  </div>
+			  <div class="panel-body">
+				  <form action="" method="POST">
+					  {% csrf_token %}
+					  {{form|crispy}}
+					  <button class="btn btn-primary" type="submit">Comment</button>
+				  </form>
+			  </div>
+			</div>
+		</div>
+{% endblock %}

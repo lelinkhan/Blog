@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Home {% endblock %}
+{% block style %}
+
+{% endblock %}
+
+{% block content %} 
+
+{% load crispy_forms_tags %}
+
+	<div id="fh5co-offcanvas">
+		<a href="#" class="fh5co-close-offcanvas js-fh5co-close-offcanvas"><span><i class="icon-cross3"></i> <span>Close</span></span></a>
+		<div class="fh5co-menu">
+			<div class="fh5co-box">
+				<h3 class="heading">Menu</h3>
+				<ul>
+						<li><a href="{% url 'category' %}">Category</a></li>
+					{% if request.user.is_authenticated %}
+						<li><a href="#">Blog</a></li>
+						<li><a href="{% url 'form' %}">Create new post</a></li>
+						<li><a href="{% url 'profile_item' %}">Profile</a></li>
+						<li><a href="{% url 'logout' %}">Log Out</a></li>
+						{% else %}
+							<li><a href="{% url 'login' %}">Log In</a></li>
+							<li><a href="{% url 'register' %}">Registration</a></li>
+					{% endif %}
+
+				</ul>
+			</div>
+			<div class="fh5co-box">
+				<h3 class="heading">Search</h3>
+				<form  method="GET" action="">
+					<div class="form-group">
+						<input type="text" name="search" class="form-control" placeholder="Type a keyword" value="{{request.GET.search}}">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+<!--Register-->
+	<div class="container">
+		 <div class="row my-3">
+		  <div class="col-sm-6 offset-sm-3">
+		   <h3>Customer Registration</h3>
+		   <hr>
+
+		   <form action="" method="POST" novalidate class="shadow p-5">
+			{% for message in messages %}
+			 <p class=" text-center text-success mb-5">{{message}}</p>
+			{% endfor %}
+
+			{% csrf_token %}
+			 {% for fm in form %}
+			  <div class="form-group mb-3">
+				{{fm.label_tag}} {{fm}} <small class="text-danger">{{fm.errors | striptags}}</small>
+			  </div>
+			 {% endfor %}
+			<div class="text-end">
+			 <button type="submit" class="btn btn-success">Submit</button>
+			</div>
+			<br>
+			<div class="text-center text-primary fw-bold"><small>Existing User ? <a href="{% url 'login' %}"
+			   class="text-danger">Login Now</a> </small></div>
+		   </form>
+		  </div>
+		 </div>
+	</div>
+
+{% endblock %}
+
+{% block script%}
+
+{% endblock %}
